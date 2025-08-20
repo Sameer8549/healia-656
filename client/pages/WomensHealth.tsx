@@ -54,11 +54,12 @@ export default function WomensHealth() {
         </div>
 
         <Tabs defaultValue="tracking" className="space-y-6">
-          <TabsList className="grid grid-cols-4 w-full max-w-2xl">
+          <TabsList className="grid grid-cols-5 w-full max-w-3xl">
             <TabsTrigger value="tracking">Cycle Tracking</TabsTrigger>
             <TabsTrigger value="pregnancy">Pregnancy</TabsTrigger>
             <TabsTrigger value="schemes">Govt Schemes</TabsTrigger>
             <TabsTrigger value="insights">AI Insights</TabsTrigger>
+            <TabsTrigger value="report">PDF Report</TabsTrigger>
           </TabsList>
 
           {/* Cycle Tracking Tab */}
