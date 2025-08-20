@@ -134,13 +134,18 @@ export default function Header() {
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-gray-200 bg-white">
             <div className="px-2 py-3 space-y-1">
-              <div className="mb-4">
+              <div className="mb-4 space-y-2">
+                <Link to="/features" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button variant="outline" size="sm" className="w-full">
+                    All Features
+                  </Button>
+                </Link>
                 <Button variant="outline" size="sm" className="w-full">
                   Get Support
                 </Button>
               </div>
-              
-              <div className="text-sm font-medium text-gray-900 mb-2">Features</div>
+
+              <div className="text-sm font-medium text-gray-900 mb-2">Quick Access</div>
               <div className="grid grid-cols-2 gap-2">
                 {features.map((feature) => (
                   <Link
