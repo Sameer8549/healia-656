@@ -265,7 +265,7 @@ export default function SymptomChecker() {
                         <XCircle className="w-5 h-5 text-red-600 mt-1" />
                         <div>
                           <p className="font-medium text-sm">Seek Medical Care If</p>
-                          <p className="text-xs text-gray-600">Fever >101°F, severe headache, difficulty breathing</p>
+                          <p className="text-xs text-gray-600">Fever &gt;101°F, severe headache, difficulty breathing</p>
                         </div>
                       </div>
                     </div>
