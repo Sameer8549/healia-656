@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Features from "./pages/Features";
 import WomensHealth from "./pages/WomensHealth";
+import SymptomChecker from "./pages/SymptomChecker";
 import FeaturePlaceholder from "./components/FeaturePlaceholder";
 import NotFound from "./pages/NotFound";
 import {
