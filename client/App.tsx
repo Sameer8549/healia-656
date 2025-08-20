@@ -40,16 +40,7 @@ const App = () => (
           <Route path="/womens-health" element={<WomensHealth />} />
 
           {/* Feature placeholder routes */}
-          <Route
-            path="/symptom-checker"
-            element={
-              <FeaturePlaceholder
-                title="AI Symptom Checker"
-                description="Enter symptoms and get AI-powered analysis with ICMR data, risk levels, and nearby hospital recommendations."
-                icon={<Stethoscope className="w-10 h-10 text-white" />}
-              />
-            }
-          />
+          <Route path="/symptom-checker" element={<SymptomChecker />} />
           <Route
             path="/reproductive-health"
             element={
