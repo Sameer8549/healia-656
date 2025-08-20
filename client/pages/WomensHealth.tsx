@@ -346,6 +346,19 @@ export default function WomensHealth() {
               </CardContent>
             </Card>
           </TabsContent>
+
+          {/* PDF Report Tab */}
+          <TabsContent value="report">
+            <PDFReport
+              reportType="womens-health"
+              patientName="User" // In real app, this would come from user data
+              reportData={{
+                cycleData: { length: currentCycle, lastPeriod },
+                healthMetrics: { score: 85, riskLevel: "low" }
+              }}
+              onGeneratePDF={handleGeneratePDF}
+            />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
