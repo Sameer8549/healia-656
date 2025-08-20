@@ -58,15 +58,18 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
+            <Link to="/features" className="text-gray-700 hover:text-primary">
+              Features
+            </Link>
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center space-x-1 text-gray-700 hover:text-primary">
-                <span>Features</span>
+                <span>Quick Access</span>
                 <ChevronDown className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-64 grid grid-cols-2 gap-1 p-2">
-                {features.map((feature) => (
+                {features.slice(0, 6).map((feature) => (
                   <DropdownMenuItem key={feature.path} asChild>
-                    <Link 
+                    <Link
                       to={feature.path}
                       className="text-sm hover:bg-health-50 rounded p-2"
                     >
@@ -74,6 +77,14 @@ export default function Header() {
                     </Link>
                   </DropdownMenuItem>
                 ))}
+                <DropdownMenuItem asChild>
+                  <Link
+                    to="/features"
+                    className="text-sm hover:bg-health-50 rounded p-2 font-medium text-health-600 col-span-2"
+                  >
+                    View All Features →
+                  </Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </nav>
