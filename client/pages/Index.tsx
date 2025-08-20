@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
-import { 
-  Heart, 
-  Activity, 
-  Dna, 
-  Shield, 
-  Clock, 
+import {
+  Heart,
+  Activity,
+  Dna,
+  Shield,
+  Clock,
   CheckCircle,
   Sparkles,
   Users,
@@ -16,14 +16,14 @@ import {
   Zap,
   Phone,
   MapPin,
-  Languages
+  Languages,
 } from "lucide-react";
 
 export default function Index() {
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      
+
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-hero">
         {/* Floating Icons */}
@@ -54,24 +54,25 @@ export default function Index() {
 
             {/* Subtitle */}
             <p className="text-xl sm:text-2xl text-white/90 max-w-4xl mx-auto mb-12 leading-relaxed">
-              Healia is India's first comprehensive AI health platform powered by Gemini, 
-              providing personalized healthcare insights, government scheme assistance, 
-              and 24/7 emergency support for every Indian family.
+              Healia is India's first comprehensive AI health platform powered
+              by Gemini, providing personalized healthcare insights, government
+              scheme assistance, and 24/7 emergency support for every Indian
+              family.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
               <Link to="/features">
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="bg-white text-health-600 hover:bg-gray-50 text-lg px-8 py-4 h-auto"
                 >
                   Explore All Features
                 </Button>
               </Link>
-              <Button 
-                size="lg" 
-                variant="outline" 
+              <Button
+                size="lg"
+                variant="outline"
                 className="border-white text-white hover:bg-white/10 text-lg px-8 py-4 h-auto"
               >
                 Get Support
@@ -105,8 +106,9 @@ export default function Index() {
               Why Healia.AI?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Built specifically for India's diverse healthcare needs, combining cutting-edge AI 
-              with local medical data and government healthcare schemes.
+              Built specifically for India's diverse healthcare needs, combining
+              cutting-edge AI with local medical data and government healthcare
+              schemes.
             </p>
           </div>
 
@@ -116,10 +118,13 @@ export default function Index() {
               <div className="w-16 h-16 bg-gradient-health rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <BrainCircuit className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">AI-Powered Insights</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                AI-Powered Insights
+              </h3>
               <p className="text-gray-600 leading-relaxed">
-                Google Gemini AI analyzes your health data against ICMR standards and provides 
-                personalized recommendations based on Indian medical research.
+                Google Gemini AI analyzes your health data against ICMR
+                standards and provides personalized recommendations based on
+                Indian medical research.
               </p>
             </div>
 
@@ -128,10 +133,13 @@ export default function Index() {
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Users className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Government Schemes</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Government Schemes
+              </h3>
               <p className="text-gray-600 leading-relaxed">
-                Automatic eligibility checking for Ayushman Bharat, PMMVY, JSY, and 100+ 
-                state-specific health programs with step-by-step application guidance.
+                Automatic eligibility checking for Ayushman Bharat, PMMVY, JSY,
+                and 100+ state-specific health programs with step-by-step
+                application guidance.
               </p>
             </div>
 
@@ -140,10 +148,13 @@ export default function Index() {
               <div className="w-16 h-16 bg-gradient-women rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Heart className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Women's Health Focus</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Women's Health Focus
+              </h3>
               <p className="text-gray-600 leading-relaxed">
-                Comprehensive reproductive health tracking, PCOS support, maternal care, 
-                and postpartum guidance tailored for Indian women.
+                Comprehensive reproductive health tracking, PCOS support,
+                maternal care, and postpartum guidance tailored for Indian
+                women.
               </p>
             </div>
 
@@ -152,10 +163,13 @@ export default function Index() {
               <div className="w-16 h-16 bg-gradient-emergency rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Shield className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Emergency Ready</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Emergency Ready
+              </h3>
               <p className="text-gray-600 leading-relaxed">
-                One-tap SOS calling to 108/100/1098 with automatic location sharing 
-                and real-time first-aid guidance for critical situations.
+                One-tap SOS calling to 108/100/1098 with automatic location
+                sharing and real-time first-aid guidance for critical
+                situations.
               </p>
             </div>
 
@@ -164,10 +178,13 @@ export default function Index() {
               <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Languages className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Multi-Language Support</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Multi-Language Support
+              </h3>
               <p className="text-gray-600 leading-relaxed">
-                Available in 10 Indian languages including Hindi, Bengali, Telugu, Tamil, 
-                and regional languages for better accessibility across India.
+                Available in 10 Indian languages including Hindi, Bengali,
+                Telugu, Tamil, and regional languages for better accessibility
+                across India.
               </p>
             </div>
 
@@ -176,10 +193,12 @@ export default function Index() {
               <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Zap className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Real-time Data</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Real-time Data
+              </h3>
               <p className="text-gray-600 leading-relaxed">
-                Live air quality (CPCB), weather (IMD), public health alerts, and outbreak 
-                notifications to keep you informed and safe.
+                Live air quality (CPCB), weather (IMD), public health alerts,
+                and outbreak notifications to keep you informed and safe.
               </p>
             </div>
           </div>
@@ -194,8 +213,9 @@ export default function Index() {
               Powered by Trusted Technology
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We use only verified data sources and cutting-edge technology to ensure 
-              accurate, reliable healthcare information for Indian families.
+              We use only verified data sources and cutting-edge technology to
+              ensure accurate, reliable healthcare information for Indian
+              families.
             </p>
           </div>
 
@@ -204,8 +224,12 @@ export default function Index() {
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
                 <BrainCircuit className="w-6 h-6 text-blue-600" />
               </div>
-              <h4 className="font-semibold text-gray-900 mb-2">Google Gemini AI</h4>
-              <p className="text-sm text-gray-600">Advanced AI for medical analysis</p>
+              <h4 className="font-semibold text-gray-900 mb-2">
+                Google Gemini AI
+              </h4>
+              <p className="text-sm text-gray-600">
+                Advanced AI for medical analysis
+              </p>
             </div>
 
             <div className="text-center">
@@ -213,14 +237,18 @@ export default function Index() {
                 <Award className="w-6 h-6 text-green-600" />
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">ICMR Data</h4>
-              <p className="text-sm text-gray-600">Indian medical research standards</p>
+              <p className="text-sm text-gray-600">
+                Indian medical research standards
+              </p>
             </div>
 
             <div className="text-center">
               <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3">
                 <Globe className="w-6 h-6 text-purple-600" />
               </div>
-              <h4 className="font-semibold text-gray-900 mb-2">MoHFW Integration</h4>
+              <h4 className="font-semibold text-gray-900 mb-2">
+                MoHFW Integration
+              </h4>
               <p className="text-sm text-gray-600">Ministry of Health data</p>
             </div>
 
@@ -228,8 +256,12 @@ export default function Index() {
               <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mx-auto mb-3">
                 <MapPin className="w-6 h-6 text-red-600" />
               </div>
-              <h4 className="font-semibold text-gray-900 mb-2">Live Location Data</h4>
-              <p className="text-sm text-gray-600">Real-time environmental data</p>
+              <h4 className="font-semibold text-gray-900 mb-2">
+                Live Location Data
+              </h4>
+              <p className="text-sm text-gray-600">
+                Real-time environmental data
+              </p>
             </div>
           </div>
         </div>
@@ -243,11 +275,12 @@ export default function Index() {
               Your Health Data is Secure
             </h3>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
-              We follow international privacy standards and Indian data protection laws 
-              to keep your personal health information completely secure.
+              We follow international privacy standards and Indian data
+              protection laws to keep your personal health information
+              completely secure.
             </p>
           </div>
-          
+
           <div className="flex flex-wrap justify-center items-center gap-8 text-gray-600">
             <div className="flex items-center gap-2">
               <Shield className="w-5 h-5 text-health-600" />
@@ -269,21 +302,21 @@ export default function Index() {
 
           {/* Contact Support */}
           <div className="mt-16 text-center bg-gradient-to-r from-health-50 to-women-50 rounded-2xl p-8">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Need Help Getting Started?</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              Need Help Getting Started?
+            </h3>
             <p className="text-gray-600 mb-6">
-              Our support team is available 24/7 to help you navigate Healia.AI 
+              Our support team is available 24/7 to help you navigate Healia.AI
               and make the most of your healthcare journey.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button className="bg-health-600 hover:bg-health-700 flex items-center gap-2">
                 <Phone className="w-4 h-4" />
                 Call Support
               </Button>
               <Link to="/features">
-                <Button variant="outline">
-                  Explore Features
-                </Button>
+                <Button variant="outline">Explore Features</Button>
               </Link>
             </div>
           </div>

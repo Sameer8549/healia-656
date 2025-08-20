@@ -23,7 +23,7 @@ import {
   Wind,
   Megaphone,
   Shield,
-  Users
+  Users,
 } from "lucide-react";
 
 const queryClient = new QueryClient();

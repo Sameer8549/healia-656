@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -52,7 +52,9 @@ export default function Header() {
             </div>
             <div>
               <span className="text-xl font-bold text-gray-900">Healia</span>
-              <span className="text-xs text-gray-600 block leading-3">Professional Healthcare</span>
+              <span className="text-xs text-gray-600 block leading-3">
+                Professional Healthcare
+              </span>
             </div>
           </Link>
 
@@ -95,13 +97,16 @@ export default function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center space-x-1 text-gray-700 hover:text-primary">
                 <span className="hidden sm:inline">
-                  {languages.find(lang => lang.code === selectedLanguage)?.name}
+                  {
+                    languages.find((lang) => lang.code === selectedLanguage)
+                      ?.name
+                  }
                 </span>
                 <ChevronDown className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {languages.map((language) => (
-                  <DropdownMenuItem 
+                  <DropdownMenuItem
                     key={language.code}
                     onClick={() => setSelectedLanguage(language.code)}
                   >
@@ -112,7 +117,11 @@ export default function Header() {
             </DropdownMenu>
 
             {/* Get Support Button */}
-            <Button variant="outline" size="sm" className="hidden sm:inline-flex">
+            <Button
+              variant="outline"
+              size="sm"
+              className="hidden sm:inline-flex"
+            >
               Get Support
             </Button>
 
@@ -145,7 +154,9 @@ export default function Header() {
                 </Button>
               </div>
 
-              <div className="text-sm font-medium text-gray-900 mb-2">Quick Access</div>
+              <div className="text-sm font-medium text-gray-900 mb-2">
+                Quick Access
+              </div>
               <div className="grid grid-cols-2 gap-2">
                 {features.map((feature) => (
                   <Link

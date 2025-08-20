@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  FileDown, 
-  Calendar, 
-  User, 
+import {
+  FileDown,
+  Calendar,
+  User,
   MapPin,
   Leaf,
   CheckCircle,
@@ -11,11 +11,19 @@ import {
   XCircle,
   TrendingUp,
   Activity,
-  Heart
+  Heart,
 } from "lucide-react";
 
 interface PDFReportProps {
-  reportType: "symptom-analysis" | "womens-health" | "lab-analysis" | "mental-wellness" | "nutrition" | "maternal-health" | "reproductive-health" | "govt-schemes";
+  reportType:
+    | "symptom-analysis"
+    | "womens-health"
+    | "lab-analysis"
+    | "mental-wellness"
+    | "nutrition"
+    | "maternal-health"
+    | "reproductive-health"
+    | "govt-schemes";
   patientName?: string;
   reportData: any;
   onGeneratePDF: () => void;
@@ -29,11 +37,16 @@ interface ReportSection {
   recommendations: string[];
 }
 
-export default function PDFReport({ reportType, patientName = "Patient", reportData, onGeneratePDF }: PDFReportProps) {
-  const currentDate = new Date().toLocaleDateString('en-IN', {
-    day: 'numeric',
-    month: 'long', 
-    year: 'numeric'
+export default function PDFReport({
+  reportType,
+  patientName = "Patient",
+  reportData,
+  onGeneratePDF,
+}: PDFReportProps) {
+  const currentDate = new Date().toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
   });
 
   const getRiskIcon = (level: "low" | "medium" | "high") => {
@@ -50,12 +63,14 @@ export default function PDFReport({ reportType, patientName = "Patient", reportD
   const getRiskBadge = (level: "low" | "medium" | "high") => {
     const styles = {
       low: "bg-green-100 text-green-800",
-      medium: "bg-yellow-100 text-yellow-800", 
-      high: "bg-red-100 text-red-800"
+      medium: "bg-yellow-100 text-yellow-800",
+      high: "bg-red-100 text-red-800",
     };
-    
+
     return (
-      <span className={`px-3 py-1 rounded-full text-sm font-medium ${styles[level]}`}>
+      <span
+        className={`px-3 py-1 rounded-full text-sm font-medium ${styles[level]}`}
+      >
         {level.charAt(0).toUpperCase() + level.slice(1)} Risk
       </span>
     );
@@ -74,14 +89,14 @@ export default function PDFReport({ reportType, patientName = "Patient", reportD
               "Regular 28-day cycle detected",
               "Normal flow duration: 5-6 days",
               "Ovulation patterns are consistent",
-              "No irregular bleeding reported"
+              "No irregular bleeding reported",
             ],
             recommendations: [
               "Continue tracking cycle for better insights",
               "Maintain healthy diet rich in iron",
               "Stay hydrated during menstruation",
-              "Consider prenatal vitamins if planning pregnancy"
-            ]
+              "Consider prenatal vitamins if planning pregnancy",
+            ],
           },
           {
             title: "Reproductive Health Score",
@@ -91,17 +106,17 @@ export default function PDFReport({ reportType, patientName = "Patient", reportD
               "Overall reproductive health: Excellent (85/100)",
               "Hormone balance: Within normal range",
               "PCOS risk assessment: Low",
-              "Fertility indicators: Positive"
+              "Fertility indicators: Positive",
             ],
             recommendations: [
               "Annual gynecological check-up recommended",
               "Continue regular exercise routine",
               "Monitor stress levels during ovulation",
-              "Consider fertility tracking if trying to conceive"
-            ]
-          }
+              "Consider fertility tracking if trying to conceive",
+            ],
+          },
         ];
-      
+
       case "symptom-analysis":
         return [
           {
@@ -112,17 +127,17 @@ export default function PDFReport({ reportType, patientName = "Patient", reportD
               "Primary symptoms: Headache, fatigue",
               "Duration: 3 days",
               "Severity: Moderate (6/10)",
-              "Associated symptoms: Mild nausea"
+              "Associated symptoms: Mild nausea",
             ],
             recommendations: [
               "Monitor symptoms for 24-48 hours",
               "Increase fluid intake",
               "Rest and avoid strenuous activities",
-              "Consult doctor if symptoms worsen"
-            ]
-          }
+              "Consult doctor if symptoms worsen",
+            ],
+          },
         ];
-      
+
       default:
         return [
           {
@@ -132,14 +147,14 @@ export default function PDFReport({ reportType, patientName = "Patient", reportD
             content: [
               "Analysis completed successfully",
               "All parameters within normal range",
-              "No immediate concerns identified"
+              "No immediate concerns identified",
             ],
             recommendations: [
               "Continue current health routine",
               "Regular check-ups recommended",
-              "Maintain healthy lifestyle"
-            ]
-          }
+              "Maintain healthy lifestyle",
+            ],
+          },
         ];
     }
   };
@@ -157,11 +172,18 @@ export default function PDFReport({ reportType, patientName = "Patient", reportD
                 <Leaf className="w-6 h-6 text-white" />
               </div>
               <div>
-                <CardTitle className="text-xl text-gray-900">Healia.AI Health Report</CardTitle>
-                <p className="text-sm text-gray-600">AI-Powered Healthcare Analysis</p>
+                <CardTitle className="text-xl text-gray-900">
+                  Healia.AI Health Report
+                </CardTitle>
+                <p className="text-sm text-gray-600">
+                  AI-Powered Healthcare Analysis
+                </p>
               </div>
             </div>
-            <Button onClick={onGeneratePDF} className="bg-health-600 hover:bg-health-700">
+            <Button
+              onClick={onGeneratePDF}
+              className="bg-health-600 hover:bg-health-700"
+            >
               <FileDown className="w-4 h-4 mr-2" />
               Download PDF
             </Button>
@@ -197,7 +219,9 @@ export default function PDFReport({ reportType, patientName = "Patient", reportD
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     {section.icon}
-                    <h3 className="text-lg font-semibold text-gray-900">{section.title}</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {section.title}
+                    </h3>
                   </div>
                   {getRiskBadge(section.riskLevel)}
                 </div>
@@ -211,7 +235,10 @@ export default function PDFReport({ reportType, patientName = "Patient", reportD
                     </h4>
                     <ul className="space-y-2">
                       {section.content.map((item, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                        <li
+                          key={i}
+                          className="flex items-start gap-2 text-sm text-gray-700"
+                        >
                           <div className="w-1.5 h-1.5 bg-health-600 rounded-full mt-2 flex-shrink-0"></div>
                           {item}
                         </li>
@@ -227,7 +254,10 @@ export default function PDFReport({ reportType, patientName = "Patient", reportD
                     </h4>
                     <ul className="space-y-2">
                       {section.recommendations.map((item, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                        <li
+                          key={i}
+                          className="flex items-start gap-2 text-sm text-gray-700"
+                        >
                           <div className="w-1.5 h-1.5 bg-women-600 rounded-full mt-2 flex-shrink-0"></div>
                           {item}
                         </li>
@@ -242,21 +272,31 @@ export default function PDFReport({ reportType, patientName = "Patient", reportD
           {/* AI Disclaimer */}
           <div className="mt-8 pt-6 border-t border-gray-200">
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 className="font-medium text-blue-900 mb-2">AI Analysis Disclaimer</h4>
+              <h4 className="font-medium text-blue-900 mb-2">
+                AI Analysis Disclaimer
+              </h4>
               <p className="text-sm text-blue-800 leading-relaxed">
-                This report is generated using AI analysis based on ICMR data and should be used for 
-                informational purposes only. It is not a substitute for professional medical advice, 
-                diagnosis, or treatment. Always consult with qualified healthcare providers for medical decisions.
+                This report is generated using AI analysis based on ICMR data
+                and should be used for informational purposes only. It is not a
+                substitute for professional medical advice, diagnosis, or
+                treatment. Always consult with qualified healthcare providers
+                for medical decisions.
               </p>
             </div>
           </div>
 
           {/* Government Schemes (if applicable) */}
-          {(reportType === "womens-health" || reportType === "maternal-health" || reportType === "govt-schemes") && (
+          {(reportType === "womens-health" ||
+            reportType === "maternal-health" ||
+            reportType === "govt-schemes") && (
             <div className="mt-6 bg-green-50 border border-green-200 rounded-lg p-4">
-              <h4 className="font-medium text-green-900 mb-2">Applicable Government Schemes</h4>
+              <h4 className="font-medium text-green-900 mb-2">
+                Applicable Government Schemes
+              </h4>
               <div className="text-sm text-green-800 space-y-1">
-                <p>• Pradhan Mantri Matru Vandana Yojana (PMMVY) - ₹5,000 benefit</p>
+                <p>
+                  • Pradhan Mantri Matru Vandana Yojana (PMMVY) - ₹5,000 benefit
+                </p>
                 <p>• Janani Suraksha Yojana (JSY) - Safe delivery support</p>
                 <p>• Ayushman Bharat - Health insurance coverage</p>
               </div>
@@ -281,7 +321,11 @@ export default function PDFReport({ reportType, patientName = "Patient", reportD
 
       {/* PDF Actions */}
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
-        <Button onClick={onGeneratePDF} size="lg" className="bg-health-600 hover:bg-health-700">
+        <Button
+          onClick={onGeneratePDF}
+          size="lg"
+          className="bg-health-600 hover:bg-health-700"
+        >
           <FileDown className="w-5 h-5 mr-2" />
           Download PDF Report
         </Button>

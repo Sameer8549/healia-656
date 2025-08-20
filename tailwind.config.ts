@@ -84,11 +84,16 @@ export default {
         },
       },
       backgroundImage: {
-        'gradient-health': 'linear-gradient(135deg, hsl(168 65% 46%) 0%, hsl(200 80% 50%) 100%)',
-        'gradient-women': 'linear-gradient(135deg, hsl(320 65% 60%) 0%, hsl(280 70% 65%) 100%)',
-        'gradient-hero': 'linear-gradient(135deg, hsl(200 80% 50%) 0%, hsl(168 65% 46%) 100%)',
-        'gradient-mental': 'linear-gradient(135deg, hsl(280 70% 65%) 0%, hsl(320 65% 60%) 100%)',
-        'gradient-emergency': 'linear-gradient(135deg, hsl(0 84% 60%) 0%, hsl(15 88% 55%) 100%)',
+        "gradient-health":
+          "linear-gradient(135deg, hsl(168 65% 46%) 0%, hsl(200 80% 50%) 100%)",
+        "gradient-women":
+          "linear-gradient(135deg, hsl(320 65% 60%) 0%, hsl(280 70% 65%) 100%)",
+        "gradient-hero":
+          "linear-gradient(135deg, hsl(200 80% 50%) 0%, hsl(168 65% 46%) 100%)",
+        "gradient-mental":
+          "linear-gradient(135deg, hsl(280 70% 65%) 0%, hsl(320 65% 60%) 100%)",
+        "gradient-emergency":
+          "linear-gradient(135deg, hsl(0 84% 60%) 0%, hsl(15 88% 55%) 100%)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -112,7 +117,7 @@ export default {
             height: "0",
           },
         },
-        "float": {
+        float: {
           "0%, 100%": {
             transform: "translateY(0px)",
           },
@@ -134,7 +139,7 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "float": "float 3s ease-in-out infinite",
+        float: "float 3s ease-in-out infinite",
         "pulse-slow": "pulse 3s ease-in-out infinite",
         "fade-in": "fade-in 0.8s ease-out",
       },
