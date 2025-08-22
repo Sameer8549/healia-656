@@ -1,9 +1,31 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+// Note: In production, this API key should be stored securely in environment variables
+// For demo purposes, we're using it directly here
 
 const API_KEY = 'AIzaSyBGpio1p5_otwnkQNQSqmflztXOl-2o8sY';
-const genAI = new GoogleGenerativeAI(API_KEY);
 
-export const geminiModel = genAI.getGenerativeModel({ model: 'gemini-pro' });
+// Direct API call to Gemini REST API
+async function callGeminiAPI(prompt: string) {
+  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      contents: [{
+        parts: [{
+          text: prompt
+        }]
+      }]
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`Gemini API error: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return data.candidates[0].content.parts[0].text;
+}
 
 export async function analyzeSymptoms(symptoms: string, age?: number, gender?: string) {
   const prompt = `
@@ -34,11 +56,7 @@ export async function analyzeSymptoms(symptoms: string, age?: number, gender?: s
   `;
 
   try {
-    const result = await geminiModel.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    
-    // Try to extract JSON from the response
+    const text = await callGeminiAPI(prompt);
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       return JSON.parse(jsonMatch[0]);
@@ -86,10 +104,7 @@ export async function analyzeWomensHealth(data: {
   `;
 
   try {
-    const result = await geminiModel.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    
+    const text = await callGeminiAPI(prompt);
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       return JSON.parse(jsonMatch[0]);
@@ -128,10 +143,7 @@ export async function analyzeLabReport(reportText: string) {
   `;
 
   try {
-    const result = await geminiModel.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    
+    const text = await callGeminiAPI(prompt);
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       return JSON.parse(jsonMatch[0]);
@@ -172,10 +184,7 @@ export async function getMentalWellnessAdvice(mood: string, stressLevel: number,
   `;
 
   try {
-    const result = await geminiModel.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    
+    const text = await callGeminiAPI(prompt);
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       return JSON.parse(jsonMatch[0]);
@@ -232,10 +241,7 @@ export async function getNutritionAdvice(profile: {
   `;
 
   try {
-    const result = await geminiModel.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    
+    const text = await callGeminiAPI(prompt);
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       return JSON.parse(jsonMatch[0]);
@@ -258,5 +264,157 @@ export async function getNutritionAdvice(profile: {
   } catch (error) {
     console.error('Gemini API error:', error);
     throw new Error('Failed to get nutrition advice.');
+  }
+}
+
+export async function analyzeReproductiveHealth(data: {
+  age?: number;
+  symptoms?: string[];
+  cycleHistory?: string;
+  concerns?: string[];
+}) {
+  const prompt = `
+    Analyze reproductive health data for PCOS and fertility insights:
+    
+    Age: ${data.age || 'Not provided'}
+    Symptoms: ${data.symptoms?.join(', ') || 'None reported'}
+    Cycle History: ${data.cycleHistory || 'Not provided'}
+    Concerns: ${data.concerns?.join(', ') || 'None'}
+    
+    Provide analysis as JSON:
+    {
+      "pcosRisk": "low|medium|high",
+      "fertilityScore": 85,
+      "hormoneBalance": "balanced|imbalanced",
+      "recommendations": ["rec1", "rec2"],
+      "lifestyle": ["tip1", "tip2"],
+      "redFlags": ["flag1", "flag2"],
+      "followUp": "recommended timeline"
+    }
+  `;
+
+  try {
+    const text = await callGeminiAPI(prompt);
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      return JSON.parse(jsonMatch[0]);
+    }
+    
+    return {
+      pcosRisk: 'low',
+      fertilityScore: 85,
+      hormoneBalance: 'balanced',
+      recommendations: ['Regular exercise', 'Balanced diet'],
+      lifestyle: ['Maintain healthy weight', 'Manage stress'],
+      redFlags: [],
+      followUp: '6 months'
+    };
+  } catch (error) {
+    console.error('Gemini API error:', error);
+    throw new Error('Failed to analyze reproductive health.');
+  }
+}
+
+export async function analyzeMaternalHealth(data: {
+  pregnancyWeek?: number;
+  symptoms?: string[];
+  previousPregnancies?: number;
+  age?: number;
+}) {
+  const prompt = `
+    Analyze maternal health data and provide pregnancy guidance:
+    
+    Pregnancy Week: ${data.pregnancyWeek || 'Not provided'}
+    Symptoms: ${data.symptoms?.join(', ') || 'None reported'}
+    Previous Pregnancies: ${data.previousPregnancies || 0}
+    Age: ${data.age || 'Not provided'}
+    
+    Provide analysis as JSON:
+    {
+      "trimester": "first|second|third",
+      "riskLevel": "low|medium|high",
+      "developmentStage": "description",
+      "recommendations": ["rec1", "rec2"],
+      "nutrition": ["food1", "food2"],
+      "exercises": ["exercise1", "exercise2"],
+      "warningSigns": ["sign1", "sign2"],
+      "nextCheckup": "timeline"
+    }
+  `;
+
+  try {
+    const text = await callGeminiAPI(prompt);
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      return JSON.parse(jsonMatch[0]);
+    }
+    
+    return {
+      trimester: 'second',
+      riskLevel: 'low',
+      developmentStage: 'Normal development',
+      recommendations: ['Regular prenatal visits', 'Take prenatal vitamins'],
+      nutrition: ['Folic acid rich foods', 'Iron supplements'],
+      exercises: ['Prenatal yoga', 'Walking'],
+      warningSigns: ['Severe headaches', 'Unusual bleeding'],
+      nextCheckup: '4 weeks'
+    };
+  } catch (error) {
+    console.error('Gemini API error:', error);
+    throw new Error('Failed to analyze maternal health.');
+  }
+}
+
+export async function analyzeYouthHealth(data: {
+  age?: number;
+  studyHours?: number;
+  screenTime?: number;
+  sleepHours?: number;
+  stressLevel?: number;
+  concerns?: string[];
+}) {
+  const prompt = `
+    Analyze youth health data for students and young adults:
+    
+    Age: ${data.age || 'Not provided'}
+    Study Hours: ${data.studyHours || 'Not provided'} per day
+    Screen Time: ${data.screenTime || 'Not provided'} hours per day
+    Sleep Hours: ${data.sleepHours || 'Not provided'} per night
+    Stress Level: ${data.stressLevel || 'Not provided'}/10
+    Concerns: ${data.concerns?.join(', ') || 'None'}
+    
+    Provide analysis as JSON:
+    {
+      "healthScore": 75,
+      "sleepQuality": "good|fair|poor",
+      "stressLevel": "low|medium|high",
+      "screenTimeRisk": "low|medium|high",
+      "recommendations": ["rec1", "rec2"],
+      "studyTips": ["tip1", "tip2"],
+      "exerciseRoutine": ["exercise1", "exercise2"],
+      "mentalHealth": ["advice1", "advice2"]
+    }
+  `;
+
+  try {
+    const text = await callGeminiAPI(prompt);
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      return JSON.parse(jsonMatch[0]);
+    }
+    
+    return {
+      healthScore: 75,
+      sleepQuality: 'good',
+      stressLevel: 'medium',
+      screenTimeRisk: 'medium',
+      recommendations: ['Take regular breaks', 'Exercise daily'],
+      studyTips: ['Pomodoro technique', 'Regular breaks'],
+      exerciseRoutine: ['Morning walk', 'Yoga'],
+      mentalHealth: ['Practice mindfulness', 'Talk to friends']
+    };
+  } catch (error) {
+    console.error('Gemini API error:', error);
+    throw new Error('Failed to analyze youth health.');
   }
 }

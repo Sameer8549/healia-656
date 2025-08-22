@@ -12,6 +12,16 @@ import WomensHealth from "./pages/WomensHealth";
 import SymptomChecker from "./pages/SymptomChecker";
 import FeaturePlaceholder from "./components/FeaturePlaceholder";
 import NotFound from "./pages/NotFound";
+import AirQuality from "./pages/AirQuality";
+import MentalWellness from "./pages/MentalWellness";
+import NutritionCoach from "./pages/NutritionCoach";
+import EmergencySOS from "./pages/EmergencySOS";
+import PublicHealthAlerts from "./pages/PublicHealthAlerts";
+import LabAnalyzer from "./pages/LabAnalyzer";
+import GovernmentSchemes from "./pages/GovernmentSchemes";
+import ReproductiveHealth from "./pages/ReproductiveHealth";
+import MaternalHealth from "./pages/MaternalHealth";
+import YouthHealth from "./pages/YouthHealth";
 import {
   Stethoscope,
   Heart,
@@ -38,109 +48,20 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/features" element={<Features />} />
           <Route path="/womens-health" element={<WomensHealth />} />
+          <Route path="/air-quality" element={<AirQuality />} />
+          <Route path="/mental-wellness" element={<MentalWellness />} />
+          <Route path="/nutrition" element={<NutritionCoach />} />
+          <Route path="/emergency" element={<EmergencySOS />} />
+          <Route path="/public-health" element={<PublicHealthAlerts />} />
+          <Route path="/lab-analyzer" element={<LabAnalyzer />} />
+          <Route path="/govt-schemes" element={<GovernmentSchemes />} />
+          <Route path="/reproductive-health" element={<ReproductiveHealth />} />
+          <Route path="/maternal-health" element={<MaternalHealth />} />
+          <Route path="/youth-health" element={<YouthHealth />} />
 
           {/* Feature placeholder routes */}
           <Route path="/symptom-checker" element={<SymptomChecker />} />
           <Route
-            path="/reproductive-health"
-            element={
-              <FeaturePlaceholder
-                title="Reproductive Health & PCOS Support"
-                description="Track cycles, PCOS symptoms, hormone-related issues with AI-backed lifestyle guidance and government program connections."
-                icon={<Heart className="w-10 h-10 text-white" />}
-              />
-            }
-          />
-          <Route
-            path="/maternal-health"
-            element={
-              <FeaturePlaceholder
-                title="Maternal Health & Postpartum Care"
-                description="Nutrition, vaccination reminders, safe delivery guidelines, post-pregnancy support, and maternal government schemes."
-                icon={<Baby className="w-10 h-10 text-white" />}
-              />
-            }
-          />
-          <Route
-            path="/lab-analyzer"
-            element={
-              <FeaturePlaceholder
-                title="Lab Report Analyzer"
-                description="Upload lab reports and get AI-powered analysis compared with ICMR standards and doctor-style explanations."
-                icon={<Activity className="w-10 h-10 text-white" />}
-              />
-            }
-          />
-          <Route
-            path="/mental-wellness"
-            element={
-              <FeaturePlaceholder
-                title="Mental Wellness"
-                description="Journaling, stress checks, yoga guidance, and connection to mental health helplines like NIMHANS."
-                icon={<BrainCircuit className="w-10 h-10 text-white" />}
-              />
-            }
-          />
-          <Route
-            path="/nutrition"
-            element={
-              <FeaturePlaceholder
-                title="Nutrition & Lifestyle Coach"
-                description="Personalized diet plans with Indian food, yoga guidance, hydration alerts, and budget-friendly recipes."
-                icon={<Apple className="w-10 h-10 text-white" />}
-              />
-            }
-          />
-          <Route
-            path="/youth-health"
-            element={
-              <FeaturePlaceholder
-                title="Youth Health"
-                description="Study-sleep balance, screen detox guidance, exam stress toolkit, and healthy lifestyle habits for students."
-                icon={<GraduationCap className="w-10 h-10 text-white" />}
-              />
-            }
-          />
-          <Route
-            path="/air-quality"
-            element={
-              <FeaturePlaceholder
-                title="Air Quality + Weather"
-                description="Real-time AQI data from CPCB, weather from IMD, and outdoor safety advice based on air quality."
-                icon={<Wind className="w-10 h-10 text-white" />}
-              />
-            }
-          />
-          <Route
-            path="/public-health"
-            element={
-              <FeaturePlaceholder
-                title="Public Health Alerts"
-                description="Local outbreak alerts, vaccination notifications, and public health updates from government sources."
-                icon={<Megaphone className="w-10 h-10 text-white" />}
-              />
-            }
-          />
-          <Route
-            path="/emergency"
-            element={
-              <FeaturePlaceholder
-                title="Emergency SOS"
-                description="One-tap emergency calling to 108/100/1098, live location sharing, and first-aid guidance."
-                icon={<Shield className="w-10 h-10 text-white" />}
-              />
-            }
-          />
-          <Route
-            path="/govt-schemes"
-            element={
-              <FeaturePlaceholder
-                title="Government Schemes & Aid"
-                description="Discover Ayushman Bharat and state-specific health programs with eligibility guides based on your location and income."
-                icon={<Users className="w-10 h-10 text-white" />}
-              />
-            }
-          />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
