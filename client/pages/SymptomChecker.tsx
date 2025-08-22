@@ -5,8 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Header from "@/components/Header";
 import PDFReport from "@/components/PDFReport";
+import { analyzeSymptoms } from "@/lib/gemini";
+import { findNearbyHospitals } from "@/lib/api";
 import {
   ArrowLeft,
   Stethoscope,
@@ -20,21 +23,42 @@ import {
   Thermometer,
   Brain,
   Heart,
+  Loader2,
 } from "lucide-react";
 
 export default function SymptomChecker() {
   const [symptoms, setSymptoms] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisComplete, setAnalysisComplete] = useState(false);
-  const [showPDFReport, setShowPDFReport] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState<any>(null);
+  const [hospitals, setHospitals] = useState<any[]>([]);
+  const [error, setError] = useState("");
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
+    if (!symptoms.trim()) return;
+    
     setIsAnalyzing(true);
-    // Simulate AI analysis
-    setTimeout(() => {
-      setIsAnalyzing(false);
+    setError("");
+    
+    try {
+      const result = await analyzeSymptoms(
+        symptoms, 
+        age ? parseInt(age) : undefined, 
+        gender || undefined
+      );
+      setAnalysisResult(result);
       setAnalysisComplete(true);
-    }, 3000);
+      
+      // Fetch nearby hospitals
+      const hospitalData = await findNearbyHospitals();
+      setHospitals(hospitalData);
+    } catch (err: any) {
+      setError(err.message || 'Failed to analyze symptoms');
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   const handleGeneratePDF = () => {
@@ -96,6 +120,35 @@ export default function SymptomChecker() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 mb-2 block">
+                        Age (optional)
+                      </label>
+                      <Input
+                        type="number"
+                        placeholder="Enter age"
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 mb-2 block">
+                        Gender (optional)
+                      </label>
+                      <Select value={gender} onValueChange={setGender}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select gender" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="male">Male</SelectItem>
+                          <SelectItem value="female">Female</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
                   <div>
                     <label className="text-sm font-medium text-gray-700 mb-2 block">
                       What symptoms are you experiencing?
@@ -116,7 +169,7 @@ export default function SymptomChecker() {
                     >
                       {isAnalyzing ? (
                         <>
-                          <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></div>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                           Analyzing...
                         </>
                       ) : (
@@ -133,9 +186,15 @@ export default function SymptomChecker() {
                     </Button>
                   </div>
 
+                  {error && (
+                    <div className="text-sm text-red-600 bg-red-50 p-3 rounded-lg">
+                      {error}
+                    </div>
+                  )}
+
                   <div className="text-xs text-gray-500 bg-blue-50 p-3 rounded-lg">
                     <strong>Privacy Notice:</strong> Your symptoms are analyzed
-                    using AI and compared with ICMR medical data. Information is
+                    using Gemini AI and compared with medical data. Information is
                     encrypted and not stored permanently.
                   </div>
                 </CardContent>
@@ -192,18 +251,21 @@ export default function SymptomChecker() {
 
           {/* AI Analysis Tab */}
           <TabsContent value="analysis" className="space-y-6">
-            {!analysisComplete ? (
+            {!analysisComplete || !analysisResult ? (
               <Card>
                 <CardContent className="py-12 text-center">
                   <div className="w-16 h-16 bg-health-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Stethoscope className="w-8 h-8 text-health-600" />
                   </div>
                   <h3 className="text-lg font-semibold mb-2">
-                    Enter symptoms to get AI analysis
+                    {isAnalyzing ? 'Analyzing symptoms...' : 'Enter symptoms to get AI analysis'}
                   </h3>
                   <p className="text-gray-600">
-                    Go to Symptom Input tab to describe your symptoms
+                    {isAnalyzing ? 'Please wait while we analyze your symptoms using Gemini AI' : 'Go to Symptom Input tab to describe your symptoms'}
                   </p>
+                  {isAnalyzing && (
+                    <Loader2 className="w-8 h-8 animate-spin mx-auto mt-4 text-health-600" />
+                  )}
                 </CardContent>
               </Card>
             ) : (
@@ -212,45 +274,61 @@ export default function SymptomChecker() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      {analysisResult.riskLevel === 'low' ? (
+                        <CheckCircle className="w-5 h-5 text-green-600" />
+                      ) : analysisResult.riskLevel === 'medium' ? (
+                        <AlertCircle className="w-5 h-5 text-yellow-600" />
+                      ) : (
+                        <XCircle className="w-5 h-5 text-red-600" />
+                      )}
                       AI Analysis Results
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <div className={`border rounded-lg p-4 ${
+                      analysisResult.riskLevel === 'low' ? 'bg-green-50 border-green-200' :
+                      analysisResult.riskLevel === 'medium' ? 'bg-yellow-50 border-yellow-200' :
+                      'bg-red-50 border-red-200'
+                    }`}>
                       <div className="flex items-center gap-2 mb-2">
-                        <AlertCircle className="w-5 h-5 text-yellow-600" />
+                        {analysisResult.riskLevel === 'low' ? (
+                          <CheckCircle className="w-5 h-5 text-green-600" />
+                        ) : analysisResult.riskLevel === 'medium' ? (
+                          <AlertCircle className="w-5 h-5 text-yellow-600" />
+                        ) : (
+                          <XCircle className="w-5 h-5 text-red-600" />
+                        )}
                         <span className="font-medium text-yellow-800">
-                          Moderate Risk Level
+                          {analysisResult.riskLevel.charAt(0).toUpperCase() + analysisResult.riskLevel.slice(1)} Risk Level
                         </span>
                       </div>
-                      <p className="text-sm text-yellow-700">
-                        Based on ICMR data analysis, your symptoms suggest
-                        possible viral infection.
+                      <p className={`text-sm ${
+                        analysisResult.riskLevel === 'low' ? 'text-green-700' :
+                        analysisResult.riskLevel === 'medium' ? 'text-yellow-700' :
+                        'text-red-700'
+                      }`}>
+                        {analysisResult.summary}
                       </p>
                     </div>
 
                     <div className="space-y-3">
                       <h4 className="font-medium">Possible Conditions:</h4>
                       <div className="space-y-2">
-                        <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                          <span className="text-sm">Viral Fever</span>
-                          <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
-                            75% match
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                          <span className="text-sm">Common Cold</span>
-                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
-                            60% match
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                          <span className="text-sm">Stress Headache</span>
-                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                            45% match
-                          </span>
-                        </div>
+                        {analysisResult.possibleConditions.map((condition: any, index: number) => (
+                          <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                            <div>
+                              <span className="text-sm font-medium">{condition.name}</span>
+                              <p className="text-xs text-gray-600">{condition.description}</p>
+                            </div>
+                            <span className={`text-xs px-2 py-1 rounded ${
+                              condition.confidence > 70 ? 'bg-red-100 text-red-800' :
+                              condition.confidence > 50 ? 'bg-yellow-100 text-yellow-800' :
+                              'bg-green-100 text-green-800'
+                            }`}>
+                              {condition.confidence}% match
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </CardContent>
@@ -266,52 +344,31 @@ export default function SymptomChecker() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-3">
-                      <div className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-green-600 mt-1" />
-                        <div>
-                          <p className="font-medium text-sm">
-                            Immediate Actions
-                          </p>
-                          <p className="text-xs text-gray-600">
-                            Rest, hydration, monitor temperature
-                          </p>
+                      <h4 className="font-medium">Recommendations:</h4>
+                      {analysisResult.recommendations.map((rec: string, index: number) => (
+                        <div key={index} className="flex items-start gap-3">
+                          <CheckCircle className="w-5 h-5 text-green-600 mt-1" />
+                          <p className="text-sm">{rec}</p>
                         </div>
-                      </div>
-
-                      <div className="flex items-start gap-3">
-                        <AlertCircle className="w-5 h-5 text-yellow-600 mt-1" />
-                        <div>
-                          <p className="font-medium text-sm">
-                            Monitor Symptoms
-                          </p>
-                          <p className="text-xs text-gray-600">
-                            Track fever, headache intensity for 24-48 hours
-                          </p>
+                      ))}
+                      
+                      <h4 className="font-medium mt-4">Seek Medical Care If:</h4>
+                      {analysisResult.seekCareIf.map((symptom: string, index: number) => (
+                        <div key={index} className="flex items-start gap-3">
+                          <AlertCircle className="w-5 h-5 text-red-600 mt-1" />
+                          <p className="text-sm">{symptom}</p>
                         </div>
-                      </div>
-
-                      <div className="flex items-start gap-3">
-                        <XCircle className="w-5 h-5 text-red-600 mt-1" />
-                        <div>
-                          <p className="font-medium text-sm">
-                            Seek Medical Care If
-                          </p>
-                          <p className="text-xs text-gray-600">
-                            Fever &gt;101°F, severe headache, difficulty
-                            breathing
-                          </p>
-                        </div>
-                      </div>
+                      ))}
                     </div>
 
                     <div className="bg-health-50 border border-health-200 rounded-lg p-4">
                       <h5 className="font-medium text-health-800 mb-2">
-                        Next Steps
+                        Home Care
                       </h5>
                       <ul className="text-sm text-health-700 space-y-1">
-                        <li>• Consult doctor if symptoms worsen</li>
-                        <li>• Take prescribed medications only</li>
-                        <li>• Maintain symptom diary</li>
+                        {analysisResult.homeCare.map((care: string, index: number) => (
+                          <li key={index}>• {care}</li>
+                        ))}
                       </ul>
                     </div>
                   </CardContent>
@@ -331,26 +388,7 @@ export default function SymptomChecker() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {[
-                    {
-                      name: "Apollo Hospital",
-                      distance: "2.3 km",
-                      type: "Multi-specialty",
-                      phone: "+91-11-12345678",
-                    },
-                    {
-                      name: "AIIMS Delhi",
-                      distance: "4.1 km",
-                      type: "Government",
-                      phone: "+91-11-26588500",
-                    },
-                    {
-                      name: "Max Hospital",
-                      distance: "3.7 km",
-                      type: "Private",
-                      phone: "+91-11-26925858",
-                    },
-                  ].map((hospital, index) => (
+                  {hospitals.map((hospital, index) => (
                     <div
                       key={index}
                       className="flex justify-between items-center p-4 bg-gray-50 rounded-lg"
@@ -360,11 +398,21 @@ export default function SymptomChecker() {
                         <p className="text-sm text-gray-600">
                           {hospital.type} • {hospital.distance}
                         </p>
+                        <p className="text-xs text-gray-500">
+                          {hospital.specialties.join(', ')}
+                        </p>
                       </div>
                       <div className="text-right">
-                        <Button size="sm" variant="outline">
-                          Call {hospital.phone}
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => window.open(`tel:${hospital.phone}`)}
+                        >
+                          Call
                         </Button>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {hospital.phone}
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -380,8 +428,10 @@ export default function SymptomChecker() {
               patientName="User"
               reportData={{
                 symptoms,
-                analysis: analysisComplete ? "Completed" : "Pending",
-                riskLevel: "moderate",
+                age,
+                gender,
+                analysis: analysisResult,
+                hospitals: hospitals.slice(0, 3)
               }}
               onGeneratePDF={handleGeneratePDF}
             />
